@@ -12,17 +12,45 @@ const Navbar: React.FC = () => {
 
   if (!userRole) return null; // No Navbar on Landing Screen
 
+  const handleBack = () => {
+    // Logic: 
+    // 1. If inside a specific store (Customer View) -> Go back to Store Selection
+    // 2. If in Store Selection or Shopkeeper Dashboard -> Go back to Landing (Role Selection)
+    
+    if (userRole === 'customer' && activeStore) {
+      exitStore(); 
+    } else {
+      setUserRole(null);
+      exitStore();
+    }
+  };
+
   return (
     <header className="bg-cream sticky top-0 z-30 border-b border-orange-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Left Side: Brand & Context */}
+        {/* Left Side: Back Button & Brand */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => { setUserRole(null); exitStore(); }}>
-            <div className={`text-white p-2 rounded-lg shadow-sm ${userRole === 'shopkeeper' ? 'bg-accent-600' : 'bg-primary-600'}`}>
+          
+          {/* Back Button */}
+          <button 
+            onClick={handleBack}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-semibold text-gray-600 hover:text-gray-900 hover:border-orange-300 hover:bg-orange-50 transition-all shadow-sm active:scale-95"
+            title="Go Back"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">Back</span>
+          </button>
+
+          {/* Divider */}
+          <div className="h-6 w-px bg-orange-200 hidden sm:block"></div>
+
+          {/* Brand */}
+          <div className="flex items-center gap-2.5">
+            <div className={`text-white p-2 rounded-lg shadow-sm hidden sm:block ${userRole === 'shopkeeper' ? 'bg-accent-600' : 'bg-primary-600'}`}>
               <StoreIcon className="w-5 h-5" />
             </div>
-            <h1 className="font-bold text-xl tracking-tight text-gray-800 hidden md:block">
+            <h1 className="font-bold text-xl tracking-tight text-gray-800">
               Quick<span className={userRole === 'shopkeeper' ? 'text-accent-600' : 'text-primary-600'}>Kirana</span>
             </h1>
           </div>
@@ -31,7 +59,7 @@ const Navbar: React.FC = () => {
           {userRole === 'customer' && activeStore && (
             <>
               <div className="h-6 w-px bg-orange-200 hidden md:block"></div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 hidden md:flex">
                 <div className="flex flex-col">
                   <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider leading-none">Shopping at</span>
                   <span className="text-sm font-semibold text-gray-900 leading-tight flex items-center gap-1">
@@ -39,22 +67,9 @@ const Navbar: React.FC = () => {
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                   </span>
                 </div>
-                <button 
-                  onClick={exitStore}
-                  className="ml-2 text-xs text-primary-600 hover:text-primary-700 bg-orange-100 hover:bg-orange-200 px-2 py-1 rounded-md transition-colors"
-                >
-                  Change
-                </button>
               </div>
             </>
           )}
-
-           {/* Active Store Indicator (Seller Mode) */}
-           {userRole === 'shopkeeper' && activeStore && (
-             <div className="ml-2 bg-orange-100 text-accent-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">
-               Managing: {activeStore.name}
-             </div>
-           )}
         </div>
         
         {/* Right Side: Actions */}

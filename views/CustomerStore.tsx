@@ -70,10 +70,11 @@ const CustomerStore: React.FC = () => {
               <div className="mb-3 md:mb-4 relative z-10">
                 <div className="relative aspect-square bg-white rounded-xl mb-3 md:mb-4 overflow-hidden border border-orange-100">
                    <img 
-                    src={`https://picsum.photos/seed/${product.barcode}/400`} 
+                    src={product.image || `https://picsum.photos/seed/${product.barcode}/400`} 
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                   />
                   {/* Badge */}
                   {product.stock <= 5 && product.stock > 0 && (
@@ -192,9 +193,10 @@ const CustomerStore: React.FC = () => {
                   <div key={item.barcode} className="flex gap-4 animate-in slide-in-from-bottom-2">
                      <div className="w-20 h-20 shrink-0 bg-white rounded-lg overflow-hidden border border-orange-100">
                        <img 
-                        src={`https://picsum.photos/seed/${item.barcode}/100`} 
+                        src={item.image || `https://picsum.photos/seed/${item.barcode}/100`} 
                         alt={item.name}
                         className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
                       />
                      </div>
                     <div className="flex-1 flex flex-col justify-between">

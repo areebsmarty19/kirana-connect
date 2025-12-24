@@ -31,35 +31,90 @@ interface StoreContextType {
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
+// Reliable Store Images
 const STORES: Store[] = [
-  { id: '1', name: 'Raju General Store', deliveryTime: '10 mins', rating: 4.8, image: 'https://images.unsplash.com/photo-1604719312566-b7e2b0084bea?auto=format&fit=crop&q=80&w=300' },
-  { id: '2', name: 'Green Valley Mart', deliveryTime: '25 mins', rating: 4.2, image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=300' },
-  { id: '3', name: 'Aapka Nukkad', deliveryTime: '15 mins', rating: 4.5, image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&q=80&w=300' },
+  { 
+    id: '1', 
+    name: 'Raju General Store', 
+    deliveryTime: '10 mins', 
+    rating: 4.8, 
+    image: 'https://images.unsplash.com/photo-1601599561096-f87c95fff1e9?auto=format&fit=crop&q=80&w=800' // Indian Kirana Style
+  },
+  { 
+    id: '2', 
+    name: 'Green Valley Mart', 
+    deliveryTime: '25 mins', 
+    rating: 4.2, 
+    image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&q=80&w=800' // Modern Mart
+  },
+  { 
+    id: '3', 
+    name: 'Aapka Nukkad', 
+    deliveryTime: '15 mins', 
+    rating: 4.5, 
+    image: 'https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?auto=format&fit=crop&q=80&w=800' // Local Shop
+  },
 ];
+
+// Reliable Product Images mapped by category/item
+const PROD_IMGS = {
+  maggi: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=400&q=80',
+  milk: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=400&q=80',
+  juice: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80', // New Item
+  coke: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
+  biscuits: 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=400&q=80',
+  rice: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=400&q=80',
+  ketchup: 'https://images.unsplash.com/photo-1607301406259-dfb186e15de8?auto=format&fit=crop&w=400&q=80',
+  chips: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=400&q=80',
+  default: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80'
+};
 
 const INITIAL_PRODUCTS: Product[] = [
   // Store 1: Raju General Store
-  { barcode: '1111', name: 'Maggi Noodles', price: 14, stock: 20, storeId: '1' },
-  { barcode: '2222', name: 'Amul Taaza Milk', price: 54, stock: 10, storeId: '1' },
-  { barcode: '3333', name: 'Tata Salt', price: 28, stock: 5, storeId: '1' },
-  { barcode: '8888', name: 'Coke 1L', price: 60, stock: 24, storeId: '1' },
+  { barcode: '1111', name: 'Maggi Noodles', price: 14, stock: 20, storeId: '1', image: PROD_IMGS.maggi },
+  { barcode: '2222', name: 'Amul Taaza Milk', price: 54, stock: 10, storeId: '1', image: PROD_IMGS.milk },
+  { barcode: '3334', name: 'Tropicana Slice', price: 95, stock: 12, storeId: '1', image: PROD_IMGS.juice }, // New Item replacing broken one
+  { barcode: '8888', name: 'Coke 1L', price: 60, stock: 24, storeId: '1', image: PROD_IMGS.coke },
   
   // Store 2: Green Valley Mart
-  { barcode: '1111', name: 'Maggi Noodles', price: 14, stock: 100, storeId: '2' }, // Better stock
-  { barcode: '4444', name: 'Britannia Biscuits', price: 35, stock: 15, storeId: '2' },
-  { barcode: '6666', name: 'India Gate Rice', price: 450, stock: 15, storeId: '2' },
+  { barcode: '1111', name: 'Maggi Noodles', price: 14, stock: 100, storeId: '2', image: PROD_IMGS.maggi }, 
+  { barcode: '4444', name: 'Britannia Biscuits', price: 35, stock: 15, storeId: '2', image: PROD_IMGS.biscuits },
+  { barcode: '6666', name: 'India Gate Rice', price: 450, stock: 15, storeId: '2', image: PROD_IMGS.rice },
   
   // Store 3: Aapka Nukkad
-  { barcode: '2222', name: 'Amul Taaza Milk', price: 54, stock: 2, storeId: '3' }, // Low stock
-  { barcode: '5555', name: 'Kissan Ketchup', price: 120, stock: 8, storeId: '3' },
-  { barcode: '7777', name: 'Lays Chips', price: 20, stock: 50, storeId: '3' },
+  { barcode: '2222', name: 'Amul Taaza Milk', price: 54, stock: 2, storeId: '3', image: PROD_IMGS.milk },
+  { barcode: '5555', name: 'Kissan Ketchup', price: 120, stock: 8, storeId: '3', image: PROD_IMGS.ketchup },
+  { barcode: '7777', name: 'Lays Chips', price: 20, stock: 50, storeId: '3', image: PROD_IMGS.chips },
 ];
 
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // --- Persistent Data ---
   const [products, setProducts] = useState<Product[]>(() => {
     const saved = localStorage.getItem('qk_products');
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    let currentProducts = saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    
+    // CACHE CLEANUP & HYDRATION
+    // 1. Filter out the broken barcode '3333' from old cache
+    currentProducts = currentProducts.filter((p: Product) => p.barcode !== '3333');
+    
+    // 2. Ensure new items (like 3334) are added if missing from cache
+    INITIAL_PRODUCTS.forEach(initP => {
+        const exists = currentProducts.find((p: Product) => p.barcode === initP.barcode && p.storeId === initP.storeId);
+        if (!exists) {
+            currentProducts.push(initP);
+        }
+    });
+
+    // 3. Update images/names/prices for existing items from source code
+    currentProducts = currentProducts.map((p: Product) => {
+        const fresh = INITIAL_PRODUCTS.find(i => i.barcode === p.barcode && i.storeId === p.storeId);
+        if (fresh) {
+           return { ...p, name: fresh.name, price: fresh.price, image: fresh.image };
+        }
+        return p;
+    });
+    
+    return currentProducts;
   });
 
   const [orders, setOrders] = useState<Order[]>(() => {
@@ -108,7 +163,15 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       // Check if exists in THIS store
       const exists = prev.find(p => p.barcode === barcode && p.storeId === activeStoreId);
       if (exists) return prev; 
-      return [...prev, { barcode, name, price, stock: 1, storeId: activeStoreId }];
+      // For new products added via scan, we assign a default image
+      return [...prev, { 
+        barcode, 
+        name, 
+        price, 
+        stock: 1, 
+        storeId: activeStoreId,
+        image: PROD_IMGS.default 
+      }];
     });
   };
 
