@@ -1,38 +1,22 @@
-# --- Stage 1: Build the React App ---
-# We use Node.js to build the static files
+# --- Stage 1: Build ---
 FROM node:18-alpine as builder
-
 WORKDIR /app
-
-# Copy package files to install dependencies first (better caching)
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
-
-# Copy the rest of your code (App.tsx, components, etc.)
 COPY . .
-
-# Build the app (compiles TypeScript to HTML/CSS/JS)
-# This usually creates a 'dist' or 'build' folder
+# ⚠️ CHECK: If you use 'Create React App', this creates a 'build' folder.
+# If you use 'Vite', this creates a 'dist' folder.
 RUN npm run build
 
-# --- Stage 2: Serve the App with Nginx ---
-# We use Nginx, a super fast web server, to show your site
+# --- Stage 2: Serve ---
 FROM nginx:alpine
 
-# Copy the built files from the previous stage to Nginx's public folder
-# Note: If you use Vite, the folder is usually /app/dist
-# If you use Create React App, it is usually /app/build
-# I'm assuming Vite given the file structure; if it fails, change 'dist' to 'build' below.
+# ⚠️ CHECK: Change '/app/dist' to '/app/build' if you are not using Vite.
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy a simple Nginx config to handle React routing (optional but recommended)
-# (If you don't add this, refreshing a page might give a 404 error)
-# For simplicity in this beginner guide, we stick to defaults for now.
+# --- THIS IS THE CRITICAL NEW LINE ---
+# It replaces the default server config with your custom one
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80 (Standard web port)
 EXPOSE 80
-
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
