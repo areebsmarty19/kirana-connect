@@ -1,0 +1,5 @@
+{
+  "name": "QuickKirana",
+  "description": "A hyper-local commerce app connecting Kirana stores with residents. Features real-time inventory and simulated QR scanning.",
+  "requestFramePermissions": []
+}
